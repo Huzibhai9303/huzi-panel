@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FF Experimental Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #2563eb;
+    }
+    .toggle-label {
+      transition: background-color 0.3s ease;
+    }
+    .toggle-label::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 9999px;
+      transition: transform 0.3s ease;
+    }
+    .toggle-checkbox:checked + .toggle-label::after {
+      transform: translateX(100%);
+    }
+
+    /* Bot Styles */
+    .bot {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: #3498db;
+      border-radius: 50%;
+    }
+
+    #crosshair {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+  <div class="bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-md">
+    <h1 class="text-3xl font-bold text-center mb-6">FF Panel (Experimental)</h1>
+
+    <!-- Aimbot Toggle -->
+    <div class="flex items-center justify-between mb-4">
+      <span class="text-lg">Aimbot</span>
+      <div class="relative inline-block w-12 align-middle select-none">
+        <input type="checkbox" id="aimbot" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+        <label for="aimbot" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"></label>
+      </div>
+    </div>
+
+    <!-- Auto Headshot Toggle -->
+    <div class="flex items-center justify-between mb-4">
+      <span class="text-lg">Auto Headshot</span>
+      <div class="relative inline-block w-12 align-middle select-none">
+        <input type="checkbox" id="headshot" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+        <label for="headshot" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"></label>
+      </div>
+    </div>
+
+    <!-- Aim Sensitivity Slider -->
+    <div class="mb-6">
+      <label for="sensitivity" class="block mb-1 text-lg">Aim Sensitivity</label>
+      <input type="range" id="sensitivity" min="0" max="100" value="50" class="w-full bg-blue-500" />
+      <p id="sensitivity-value" class="text-sm text-gray-400 mt-1">50%</p>
+    </div>
+
+    <!-- Start Script Button -->
+    <button id="startBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl text-lg font-semibold">
+      Start Script
+    </button>
+
+    <!-- Output -->
+    <div id="output" class="mt-4 text-green-400 text-sm"></div>
+  </div>
+
+  <!-- Bot Element -->
+  <div id="bot" class="bot" style="top: 300px; left: 500px;"></div>
+
+  <!-- Crosshair -->
+  <div id="crosshair"></div>
+
+  <script>
+    const sensitivityInput = document.getElementById('sensitivity');
+    const sensitivityValue = document.getElementById('sensitivity-value');
+    const output = document.getElementById('output');
+    const bot = document.getElementById('bot');
+    const crosshair = document.getElementById('crosshair');
+
+    let botPosition = { x: 500, y: 300, headRadius: 25 }; // Bot's position
+
+    sensitivityInput.addEventListener('input', () => {
+      sensitivityValue.textContent = sensitivityInput.value + '%';
+    });
+
+    function aimbotEffect() {
+      const aimbot = document.getElementById('aimbot').checked;
+      const headshot = document.getElementById('headshot').checked;
+
+      // Simulate aimbot effect
+      if (aimbot) {
+        crosshair.style.left = `${botPosition.x}px`;
+        crosshair.style.top = `${botPosition.y}px`;
+
+        if (headshot) {
+          // Move to bot's head for headshot
+          crosshair.style.top = `${botPosition.y - botPosition.headRadius}px`;
+        }
+      }
+    }
+
+    document.getElementById('startBtn').addEventListener('click', () => {
+      const aimbot = document.getElementById('aimbot').checked;
+      const headshot = document.getElementById('headshot').checked;
+      const sensitivity = sensitivityInput.value;
+
+      aimbotEffect();
+
+      const result = `✔️ Script Running With:\n- Aimbot: ${aimbot ? 'Enabled' : 'Disabled'}\n- Auto Headshot: ${headshot ? 'Enabled' : 'Disabled'}\n- Sensitivity: ${sensitivity}%`;
+
+      output.textContent = result;
+    });
+  </script>
+</body>
+</html>

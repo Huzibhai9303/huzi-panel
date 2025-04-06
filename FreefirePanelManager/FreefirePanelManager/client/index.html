@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>FF Experimental Panel</title>
+    <script>
+      window.tailwind = {
+        config: {
+          theme: {
+            extend: {
+              colors: {
+                'game-blue': '#2563eb',
+                'game-dark': '#0f172a',
+                'game-panel': '#1e293b',
+                'game-success': '#4ade80',
+                'game-danger': '#ef4444',
+                'game-accent': '#7c3aed'
+              },
+              fontFamily: {
+                'game': ['Rajdhani', 'sans-serif'],
+                'system': ['Inter', 'sans-serif']
+              },
+              boxShadow: {
+                'neon': '0 0 5px theme("colors.game-blue"), 0 0 20px theme("colors.game-blue")',
+                'neon-green': '0 0 5px theme("colors.game-success"), 0 0 20px theme("colors.game-success")',
+                'neon-red': '0 0 5px theme("colors.game-danger"), 0 0 20px theme("colors.game-danger")'
+              }
+            }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body class="bg-game-dark text-white font-game">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
